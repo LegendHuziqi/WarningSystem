@@ -1,0 +1,67 @@
+package edu.tute.academicEarlyWarningManagementSystem.pojo.SecretaryService;
+
+public class SearchStudentRequest {
+    private String className;
+    private String userName;
+    private String name;
+    private String college;
+    private String warningStatus;
+    private String page;
+    private String pageSize;
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCollege() {
+        return college;
+    }
+
+    public void setCollege(String college) {
+        this.college = college;
+    }
+
+    public String getWarningStatus() {
+        return warningStatus;
+    }
+
+    public void setWarningStatus(String warningStatus) {
+        this.warningStatus = warningStatus;
+    }
+
+    public String getPage() {
+        return page;
+    }
+
+    public void setPage(String page) {
+        this.page = page;
+    }
+
+    public String getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(String pageSize) {
+        this.pageSize = pageSize;
+    }
+}

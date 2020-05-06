@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.tute.academicEarlyWarningManagementSystem.dao.UserMapper">
+    <!--登录-->
+    <select id="login" resultType="java.lang.Integer">
+        select *
+        from user
+        where userName = #{userName}
+          and password = #{password}
+    </select>
+
+    <!--根据查询条件查询学生-->
+    <select id="selectConversation"
+            parameterType="edu.tute.academicEarlyWarningManagementSystem.pojo.SecretaryService.SearchStudentRequest"
+            resultType="edu.tute.academicEarlyWarningManagementSystem.Bean.User">
+        select * from user
+        <where>
+            roleId='4'
+            <if test='name != null'>
+                and name=#{name}
+            </if>
+
+            <if test='className != null'>
+                and className=#{className}
+            </if>
+
+            <if test='college != null'>
+                and college=#{college}
+            </if>
+
+            <if test='userName != null'>
+                and userName=#{userName}
+            </if>
+
+        </where>
+        order by id desc
+        limit #{page},#{pageSize};
+    </select>
+
+    <update id="insertWarningInfo"
+            parameterType="edu.tute.academicEarlyWarningManagementSystem.pojo.SecretaryService.WarningInfoRequest">
+        update user
+        set warningStatus=0,
+            warningReason=#{warningReason}
+        where userName = #{userName}
+          and name = #{name}
+    </update>
+
+    <update id="deleteWarningInfo"
+            parameterType="edu.tute.academicEarlyWarningManagementSystem.pojo.SecretaryService.WarningInfoRequest">
+        update user
+        set warningStatus=1,
+            warningReason=''
+        where userName = #{userName}
+          and name = #{name}
+    </update>
+
+    <insert id="insertStudentInfo" parameterType="edu.tute.academicEarlyWarningManagementSystem.Bean.User">
+        insert into 'user' (userName, password, roleId, college, className, name, phone, room, address, contactName,
+                            contactPhone, warningStatus)
+        VALUES (#{username}, #{username}, #{roleId}, #{college}, #{className}, #{name}, #{phone}, #{room}, #{address},
+                #{contactName}, #{contacePhone}, #{warningStatus})
+    </insert>
+
+</mapper>
