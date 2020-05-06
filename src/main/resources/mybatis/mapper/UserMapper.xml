@@ -40,8 +40,9 @@
     <update id="insertWarningInfo"
             parameterType="edu.tute.academicEarlyWarningManagementSystem.pojo.SecretaryService.WarningInfoRequest">
         update user
-        set warningStatus=0,
-            warningReason=#{warningReason}
+        set warningStatus='0',
+            warningReason=#{warningReason},
+            handleStatus='1'
         where userName = #{userName}
           and name = #{name}
     </update>
@@ -49,8 +50,9 @@
     <update id="deleteWarningInfo"
             parameterType="edu.tute.academicEarlyWarningManagementSystem.pojo.SecretaryService.WarningInfoRequest">
         update user
-        set warningStatus=1,
-            warningReason=''
+        set warningStatus='1',
+            warningReason='',
+            handleStatus='0'
         where userName = #{userName}
           and name = #{name}
     </update>
@@ -61,5 +63,12 @@
         VALUES (#{username}, #{username}, #{roleId}, #{college}, #{className}, #{name}, #{phone}, #{room}, #{address},
                 #{contactName}, #{contacePhone}, #{warningStatus})
     </insert>
+
+    <!--获取预警通知信息-->
+    <select id="getNotification" resultType="edu.tute.academicEarlyWarningManagementSystem.Bean.User">
+        select *
+        from user
+        where className=#{className} and warningStatus='0' and handleStatus='1'
+    </select>
 
 </mapper>

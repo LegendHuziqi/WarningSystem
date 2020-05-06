@@ -27,4 +27,7 @@ public interface UserMapper {
 
     //添加学生信息
     Integer insertStudentInfo(User user);
+
+    //列出预警通知
+    List<User> getNotification(String className);
 }

@@ -55,14 +55,22 @@ public class TeacherServiceImpl implements TeacherService {
     public ResponseMsg getAllStudent(UserNameRequest userNameRequest) {
         ResponseMsg responseMsg = new ResponseMsg();
         List<String> allClass = relationshipMapper.getAllClass(userNameRequest.getUserName());
-        List<User> result = new ArrayList<User>();
+        List<JSONObject> result = new ArrayList<JSONObject>();
         if (!allClass.isEmpty()) {
             for (String className : allClass) {
                 SearchStudentRequest searchStudentRequest = new SearchStudentRequest();
                 searchStudentRequest.setClassName(className);
                 List<User> students = userMapper.searchStudent(searchStudentRequest);
                 for (User student : students) {
-                    result.add(student);
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("userName", student.getUserName());
+                    jsonObject.put("name", student.getName());
+                    jsonObject.put("college", student.getCollege());
+                    jsonObject.put("className", student.getClassName());
+                    jsonObject.put("room", student.getRoom());
+                    jsonObject.put("warningStatus", student.getWarningStatus());
+                    jsonObject.put("handleStatus", student.getHandleStatus());
+                    result.add(jsonObject);
                 }
             }
             responseMsg.setStatusCode(0);
@@ -78,11 +86,27 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public ResponseMsg getNotification(UserNameRequest userNameRequest) {
         ResponseMsg responseMsg = new ResponseMsg();
+        List<JSONObject> result = new ArrayList<JSONObject>();
         List<String> allClass = relationshipMapper.getAllClass(userNameRequest.getUserName());
         if (!allClass.isEmpty()) {
-
+            for (String className : allClass){
+                List<User> temp = userMapper.getNotification(className);
+                for (User student : temp) {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("userName", student.getUserName());
+                    jsonObject.put("name", student.getName());
+                    jsonObject.put("warningReason",student.getWarningReason());
+                    result.add(jsonObject);
+                }
+            }
+            responseMsg.setStatusCode(0);
+            responseMsg.setData(JSONObject.toJSONString(result));
+            return responseMsg;
+        }else {
+            responseMsg.setStatusCode(1);
+            responseMsg.setMsg("查询失败");
+            return responseMsg;
         }
-        return null;
     }
 
 
