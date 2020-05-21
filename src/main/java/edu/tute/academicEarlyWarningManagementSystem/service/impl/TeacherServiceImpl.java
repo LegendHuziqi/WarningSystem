@@ -1,5 +1,6 @@
 package edu.tute.academicEarlyWarningManagementSystem.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import edu.tute.academicEarlyWarningManagementSystem.Bean.User;
 import edu.tute.academicEarlyWarningManagementSystem.dao.RelationshipMapper;
@@ -12,8 +13,7 @@ import edu.tute.academicEarlyWarningManagementSystem.utils.JedisClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class TeacherServiceImpl implements TeacherService {
@@ -109,5 +109,32 @@ public class TeacherServiceImpl implements TeacherService {
         }
     }
 
+    @Override
+    public ResponseMsg getResetList(UserNameRequest userNameRequest) {
+        ResponseMsg responseMsg = new ResponseMsg();
+        Map temp = jedisClient.hgetAll(userNameRequest.getUserName());
+        Iterator<Map.Entry<String, String>> iterator = temp.entrySet().iterator();
+        List<JSONObject> result = new ArrayList<>();
+        while (iterator.hasNext()){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("studentId",iterator.next().getKey());
+            jsonObject.put("studentName",iterator.next().getValue());
+            result.add(jsonObject);
+        }
+        responseMsg.setData(JSONObject.toJSONString(result));
+        return responseMsg;
+    }
 
+
+    public static void main(String[] args) {
+        Map test = new HashMap();
+        test.put("1","1");
+        test.put("2","1");
+        test.put("3","0");
+
+        Iterator iterator = test.entrySet().iterator();
+        while (iterator.hasNext()){
+            System.out.println(iterator.next());
+        }
+    }
 }

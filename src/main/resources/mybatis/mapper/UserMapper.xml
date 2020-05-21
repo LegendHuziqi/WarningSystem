@@ -68,7 +68,20 @@
     <select id="getNotification" resultType="edu.tute.academicEarlyWarningManagementSystem.Bean.User">
         select *
         from user
-        where className=#{className} and warningStatus='0' and handleStatus='1'
+        where className = #{className}
+          and warningStatus = '0'
+          and handleStatus = '1'
     </select>
 
+    <select id="getUser" resultType="edu.tute.academicEarlyWarningManagementSystem.Bean.User">
+        select *
+        from user
+        where userName = #{userName}
+    </select>
+
+    <update id="changePassword">
+        update user
+        set password=#{password}
+        where userName = #{userName}
+    </update>
 </mapper>

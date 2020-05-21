@@ -1,11 +1,9 @@
 package edu.tute.academicEarlyWarningManagementSystem.controller;
 
 import edu.tute.academicEarlyWarningManagementSystem.Bean.User;
-import edu.tute.academicEarlyWarningManagementSystem.pojo.LoginRequest;
 import edu.tute.academicEarlyWarningManagementSystem.pojo.ResponseMsg;
 import edu.tute.academicEarlyWarningManagementSystem.pojo.SecretaryService.SearchStudentRequest;
 import edu.tute.academicEarlyWarningManagementSystem.pojo.SecretaryService.WarningInfoRequest;
-import edu.tute.academicEarlyWarningManagementSystem.service.LoginService;
 import edu.tute.academicEarlyWarningManagementSystem.service.SecretaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

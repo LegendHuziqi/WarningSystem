@@ -1,4 +1,4 @@
-package edu.tute.academicEarlyWarningManagementSystem.pojo;
+package edu.tute.academicEarlyWarningManagementSystem.pojo.LoginService;
 
 public class LoginRequest {
     private String userName;

@@ -4,16 +4,13 @@ import edu.tute.academicEarlyWarningManagementSystem.pojo.CommonService.ChangePa
 import edu.tute.academicEarlyWarningManagementSystem.pojo.LoginService.ForgetPasswordRequest;
 import edu.tute.academicEarlyWarningManagementSystem.pojo.LoginService.LoginRequest;
 import edu.tute.academicEarlyWarningManagementSystem.pojo.ResponseMsg;
+import edu.tute.academicEarlyWarningManagementSystem.pojo.TeacherService.UserNameRequest;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface LoginService {
-    //登录
-    ResponseMsg login(LoginRequest loginRequest);
+public interface StudentService {
+    //获取自身信息
+    ResponseMsg getInfo(UserNameRequest userNameRequest);
 
-    //申请重置密码
-    void forgetPassword(ForgetPasswordRequest forgetPasswordRequest);
 
-    //根据旧密码改密码
-    ResponseMsg changePassword(ChangePasswordRequest changePasswordRequest);
 }

@@ -30,4 +30,10 @@ public interface UserMapper {
 
     //列出预警通知
     List<User> getNotification(String className);
+
+    //根据学号查找学生信息
+    User getUser(String userName);
+
+    //根据学号查找学生信息
+    Integer changePassword(@Param("userName") String userName, @Param("password") String password);
 }

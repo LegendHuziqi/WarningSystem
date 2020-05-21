@@ -36,4 +36,11 @@ public class TeacherController {
         responseMsg = teacherService.getNotification(userNameRequest);
         return responseMsg;
     }
+
+    @PostMapping("/getResetList")
+    public ResponseMsg getResetList(@RequestBody UserNameRequest userNameRequest){
+        ResponseMsg responseMsg = new ResponseMsg();
+        responseMsg = teacherService.getResetList(userNameRequest);
+        return responseMsg;
+    }
 }

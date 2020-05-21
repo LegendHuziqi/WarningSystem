@@ -7,4 +7,16 @@
         where teacher = #{userName}
            or advisor = #{userName}
     </select>
+
+    <select id="getTeacherbyClassName" resultType="java.lang.Integer">
+        select teacher
+        from relationship
+        where className = #{className}
+    </select>
+
+    <select id="getAdvisorbyClassName" resultType="java.lang.Integer">
+        select advisor
+        from relationship
+        where className = #{className}
+    </select>
 </mapper>

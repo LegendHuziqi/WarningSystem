@@ -3,33 +3,34 @@ package edu.tute.academicEarlyWarningManagementSystem.controller;
 import edu.tute.academicEarlyWarningManagementSystem.pojo.LoginService.ForgetPasswordRequest;
 import edu.tute.academicEarlyWarningManagementSystem.pojo.LoginService.LoginRequest;
 import edu.tute.academicEarlyWarningManagementSystem.pojo.ResponseMsg;
+import edu.tute.academicEarlyWarningManagementSystem.pojo.TeacherService.UserNameRequest;
 import edu.tute.academicEarlyWarningManagementSystem.service.LoginService;
+import edu.tute.academicEarlyWarningManagementSystem.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LoginController {
+@RequestMapping("/student")
+public class StudentController {
     @Autowired
-    LoginService loginService;
+    StudentService studentService;
 
-    @PostMapping("/login")
-    public ResponseMsg login(@RequestBody LoginRequest loginRequest){
+    @PostMapping("/getInfo")
+    public ResponseMsg getInfo(@RequestBody UserNameRequest userNameRequest){
         ResponseMsg responseMsg = new ResponseMsg();
-        if(loginRequest.getUserName() == null || loginRequest.getPassword() == null){
-            responseMsg.setStatusCode(1);
-            responseMsg.setData("输入的用户名账号为空,请重试");
-            return responseMsg;
-        }
-        responseMsg = loginService.login(loginRequest);
+        responseMsg = studentService.getInfo(userNameRequest);
         return responseMsg;
     }
 
-    @PostMapping("/forgetPassword")
-    public ResponseMsg forgetPassword(@RequestBody ForgetPasswordRequest forgetPasswordRequest){
+    @PostMapping("/modifyInfo")
+    public ResponseMsg modifyInfo(@RequestBody UserNameRequest userNameRequest){
         ResponseMsg responseMsg = new ResponseMsg();
-        loginService.forgetPassword(forgetPasswordRequest);
+        responseMsg = studentService.getInfo(userNameRequest);
         return responseMsg;
     }
+
+
 }
