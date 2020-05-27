@@ -17,6 +17,12 @@ public interface SecretaryService {
     //预警信息--删除
     ResponseMsg deleteWarningInfo(WarningInfoRequest warningInfoRequest);
 
-    //信息录入
+    //学生信息录入
     ResponseMsg createStudentInfo(User user);
+
+    //辅导员信息录入
+    ResponseMsg importAdvisor(User user);
+
+    //班主任信息录入
+    ResponseMsg importTeacher(User user);
 }

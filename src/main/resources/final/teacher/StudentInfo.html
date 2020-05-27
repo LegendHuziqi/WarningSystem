@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="../assets/jquery-3.3.1.js"></script>
+    <script src="../assets/jquery-3.3.1.min.js"></script>
+    <meta charset="UTF-8">
+    <title>天津职业技术师范大学学业预警管理系统</title>
+    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+    <link rel="script" href="../../../jquery/jquery-ui.js"/>
+
+</head>
+<body>
+<div class="container">
+    <div class="grid header">
+        <span class="xxx title">
+            天津职业技术师范大学学业预警管理系统
+        </span>
+        <span class="grid Log_in">
+            <a href="../login.html">注销用户</a></span>
+        </span>
+        <p class="wel">欢迎</p>
+    </div>
+    <div class="grid sidebar">
+        <ul>
+            <ul>
+                <li>
+                    <a href="StudentInfo.html">学生信息</a>
+                </li>
+                <li>
+                    <a href="ResetPassword.html">密码重置</a>
+                </li>
+                <li>
+                    <a href="ChangePassword.html">修改密码</a>
+                </li>
+            </ul>
+        </ul>
+    </div>
+    <div class="grid content_box">
+        <form id="form1" method="post" onclick="" name="form1">
+            学号:<input type="text" name="userName" id="userName" class="userName" value=""/><input type="checkbox"
+                                                                                                  id="userNameTest">
+            姓名:<input type="text" name="name" id="name" class="name" value=""/><input type="checkbox" id="nameTest">
+            学院:<input type="text" name="college" id="college" class="college" value=""/><input type="checkbox"
+                                                                                               id="collegeTest">
+            处于预警<input type="checkbox" id="warningInfoTest">
+            <input type="button" value="查询" class="submit1" id="submit1" onclick="search()">
+            <div id="show">
+                <table id="table">
+                    <thead>
+                    <tr>
+                        <th>学号</th>
+                        <th>姓名</th>
+                        <th>学院</th>
+                        <th>班级</th>
+                        <th>学业预警状态</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table">
+                    </tbody>
+<!--                    <div>-->
+<!--                        <span id="current"></span>-->
+<!--                        <span id="total"></span>-->
+<!--                        <div>跳到第-->
+<!--                            <input id="num" type="text" style="width:30px">页-->
+<!--                        </div>-->
+<!--                        <button id="pass" onclick="pass()">跳转</button>-->
+<!--                    </div>-->
+                </table>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="xxx footer"></div>
+</div>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#show").hide() //刚进入时，让页面隐藏
+        var value = localStorage.getItem("name");
+        $(function () {
+            $(".wel").html("欢迎,"+value)
+        });
+    })
+
+    function search() {
+        $("#show").show();
+        var className = localStorage.getItem("className")
+        if (document.getElementById("userNameTest").checked) {
+            var userName = $("#userName").val()
+        }
+        if (document.getElementById("nameTest").checked) {
+            var name = $("#name").val()
+        }
+        if (document.getElementById("collegeTest").checked) {
+            var college = $("#college").val()
+        }
+        if (document.getElementById("warningInfoTest").checked) {
+            var warningStatus = "0"
+        } else {
+            var warningStatus = "1"
+        }
+        var page = 0
+        var pageSize = 10
+        var data = {
+            className,
+            userName,
+            name,
+            college,
+            warningStatus,
+            page,
+            pageSize
+        };
+
+        $.ajax({
+            url: "http://127.0.0.1:8087/secretary/searchStudent",
+            type: "post",
+            headers: {
+                "Content-Type": "application/json;charset=UTF-8"
+            },
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function (msg) {
+                var html = '';
+                // var data = JSON.parse(msg)
+                var arr = JSON.parse(msg.data)
+                $(function () {
+                    for (var i = 0; i < arr.length; i++) {
+                        var ls = arr[i];
+                        html += '<tr id="' + ls['userName'] + '" class="tr">' +
+                            //遍历要展示的数组，动态生成，ls[数据对应的字段]
+                            '<td class="userName">' + ls['userName'] + '</td>' +
+                            '<td>' + ls['name'] + '</td>' +
+                            '<td>' + ls['college'] + '</td>' +
+                            '<td>' + ls['className'] + '</td>' +
+                            '<td>' + ls['warningStatus'] + '</td>' +
+                            '</tr>'
+                    }      //这一块是最重要的
+                    $(".table").html(html);
+                    $(".tr").click(function () { //这个方法是点击每一行，具体可以根据传参决定，这个可以实现展示详情
+                        var id = $(this).attr('id');
+                        localStorage.setItem("search",id);
+                        window.location.href="./InfoDetail.html"
+                    });
+                });
+                //value为你传过来的数据
+                // $("current").html("第" + value + "页") //当前为第几页
+                // $("total").html("共" + value + "页") //总共几页
+            }
+        })
+    }
+</script>
+
+
+</html>

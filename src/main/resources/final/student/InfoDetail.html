@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="../assets/jquery-3.3.1.js"></script>
+    <script src="../assets/jquery-3.3.1.min.js"></script>
+    <meta charset="UTF-8">
+    <title>天津职业技术师范大学学业预警管理系统</title>
+    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+    <link rel="script" href="../../../jquery/jquery-ui.js"/>
+
+</head>
+<body>
+<div class="container">
+    <div class="grid header">
+        <span class="xxx title">
+            天津职业技术师范大学学业预警管理系统
+        </span>
+        <span class="grid Log_in">
+            <a href="../login.html">注销用户</a></span>
+        <p class="wel"></p>
+    </div>
+    <div class="grid sidebar">
+        <ul>
+            <li>
+                <a href="InfoDetail.html">我的信息</a>
+            </li>
+            <li>
+                <a href="ChangePassword.html">修改密码</a>
+            </li>
+        </ul>
+    </div>
+    <div class="grid content_box">
+        <form id="info">
+
+        </form>
+        <div>
+            <input type="button" value="编辑信息" style="width:100px;height:35px" onclick="editInfo()"></input>
+        </div>
+    </div>
+
+    <div class="xxx footer"></div>
+</div>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var userName = localStorage.getItem("userName");
+        var data ={
+            userName
+        }
+        var value = localStorage.getItem("name");
+        $(function () {
+            $(".wel").html("欢迎,"+value)
+        });
+        $.ajax({
+            url: "http://127.0.0.1:8087/getUser",
+            type: "post",
+            headers: {
+                "Content-Type": "application/json;charset=UTF-8"
+            },
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function (msg) {
+                var html = '';
+                var ls = JSON.parse(msg.data)
+                if(ls['warningStatus'] == "1"){
+                    var warningStatus = "否"
+                }else{
+                    var warningStatus = "是"
+                }
+                $(function () {
+                    html +=
+                        '<div >' + "学号：" + '<input id="userName" readonly="readonly" value=' + ls['userName'] + '>' + '</input>' + '</div>' +
+                        '<div>' + "姓名：" + '<input readonly="readonly" value=' + ls['name'] + '>' + '</input>' + '</div>' +
+                        '<div>' + "学院：" + '<input readonly="readonly" value=' + ls['college'] + '>' + '</input>' + '</div>' +
+                        '<div>' + "班级：" + '<input readonly="readonly" value=' + ls['className'] + '>' + '</input>' + '</div>' +
+                        '<div>' + "手机：" + '<input readonly="readonly" value=' + ls['phone'] + '>' + '</input>' + '</div>' +
+                        '<div>' + "宿舍：" + '<input readonly="readonly" value=' + ls['room'] + '>' + '</input>' + '</div>' +
+                        '<div>' + "家庭住址：" + '<input readonly="readonly" value=' + ls['address'] + '>' + '</input>' + '</div>' +
+                        '<div>' + "联系人姓名：" + '<input readonly="readonly" value=' + ls['contactName'] + '>' + '</input>' + '</div>' +
+                        '<div>' + "联系人手机：" + '<input readonly="readonly" value=' + ls['contactPhone'] + '>' + '</input>' + '</div>' +
+                        '<div>' + "预警状态：" + '<input readonly="readonly" value=' + warningStatus + '>' + '</input>' + '</div>' +
+                        '<div>' + "预警原因：" + '<textarea readonly="readonly" rows="10" cols="100">' + ls['warningReason'] + '</textarea>' + '</div>' +
+                        '<div>' + "反馈情况：" + '<textarea id="description" readonly="readonly" rows="10" cols="100">' + ls['description'] + '</textarea>' + '</div>'
+                    $("#info").html(html);
+                    // $(".tr").click(function () { //这个方法是点击每一行，具体可以根据传参决定，这个可以实现展示详情
+                    //     var id = $(this).attr('id');
+                    //     localStorage.setItem("search",id);
+                    //     window.location.href
+                    // });
+                });
+
+            }
+        })
+
+    })
+
+    function editInfo() {
+        window.location.href="./EditInfo.html"
+    }
+</script>
+
+
+</html>

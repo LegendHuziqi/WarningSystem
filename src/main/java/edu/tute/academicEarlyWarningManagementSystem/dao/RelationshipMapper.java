@@ -17,8 +17,8 @@ public interface RelationshipMapper {
     List<String> getAllClass(@Param("userName") String userName);
 
     //根据班名找出老师工号
-    Integer getTeacherbyClassName(@Param("className") String className);
+    String getTeacherbyClassName(@Param("className") String className);
 
     //根据班名找出辅导员工号
-    Integer getAdvisorbyClassName(@Param("className") String className);
+    String getAdvisorbyClassName(@Param("className") String className);
 }

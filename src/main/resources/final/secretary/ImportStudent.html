@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="../assets/jquery-3.3.1.js"></script>
+    <script src="../assets/jquery-3.3.1.min.js"></script>
+    <meta charset="UTF-8">
+    <title>天津职业技术师范大学学业预警管理系统</title>
+    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+    <link rel="script" href="../../../jquery/jquery-ui.js"/>
+
+</head>
+<body>
+<div class="container">
+    <div class="grid header">
+       <span class="xxx title">
+            天津职业技术师范大学学业预警管理系统
+        </span>
+        <span class="grid Log_in">
+            <a href="../login.html">注销用户</a></span>
+        <p class="wel"></p>
+    </div>
+    <div class="grid sidebar">
+        <ul >
+            <li>
+                <a href="StudentInfo.html">学生信息</a>
+            </li>
+            <li>
+                <a href="WarningInfo.html">预警信息</a>
+            </li>
+            <li>
+                <a href="ImportInfo.html">信息录入</a>
+            </li>
+            <!--            <li>-->
+            <!--                <a href="ResetPassword.html">密码重置</a>-->
+            <!--            </li>-->
+            <li>
+                <a href="ChangePassword.html">修改密码</a>
+            </li>
+        </ul>
+    </div>
+    <div class="grid content_box">
+        <form id="form1" method="post" onclick="" name="form1">
+            学号：<input type="text" name="userName" id="userName" class="id"><br>
+            姓名：<input type="text" name="name" id="name" class="id"><br>
+            学院：<input type="text" name="college" id="college" class="id"><br>
+            班级：<input type="text" name="className" id="className" class="id"><br>
+            宿舍号：<input type="text" name="room" id="room" class="id"><br>
+            手机：<input type="text" name="phone" id="phone" class="id"><br>
+            联系人姓名：<input type="text" name="contactName" id="contactName" class="id"><br>
+            联系人手机：<input type="text" name="contactPhone" id="contactPhone" class="id"><br>
+            家庭住址：<input type="text" name="address" id="address" class="id"><br>
+            <input type="button" value="提交" class="submit1" id="submit1" onclick="importInfo()">
+        </form>
+    </div>
+    <div class="xxx footer"></div>
+</div>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var value = localStorage.getItem("name");
+        $(function () {
+            $(".wel").html("欢迎,"+value)
+        });
+    });
+    function importInfo(){
+        var warningStatus = "1"
+        var roleId = "4"
+        var data = {
+            userName:$("#userName").val(),
+            name:$("#name").val(),
+            college:$("#college").val(),
+            className:$("#className").val(),
+            room:$("#room").val(),
+            phone:$("#phone").val(),
+            contactName:$("#contactName").val(),
+            contactPhone:$("#contactPhone").val(),
+            address:$("#address").val(),
+            warningStatus,
+            roleId
+        };
+
+        $.ajax({
+            url:"http://127.0.0.1:8087/secretary/importStudent",
+            type:"post",
+            headers: {
+                "Content-Type": "application/json;charset=UTF-8"
+            },
+            data: JSON.stringify(data),
+            dataType:"json",
+            success:function(msg){
+                if(msg['statusCode'] == 0){
+                    alert(msg['msg']);
+                    window.location.href="./ImportStudent.html";
+                }
+                else{
+                    alert("提交失败");
+                }
+            }
+        })
+    }
+</script>
+
+
+</html>

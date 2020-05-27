@@ -2,16 +2,16 @@ package edu.tute.academicEarlyWarningManagementSystem.controller;
 
 import edu.tute.academicEarlyWarningManagementSystem.pojo.ResponseMsg;
 import edu.tute.academicEarlyWarningManagementSystem.pojo.SecretaryService.SearchStudentRequest;
+import edu.tute.academicEarlyWarningManagementSystem.pojo.TeacherService.ResetPasswordRequest;
+import edu.tute.academicEarlyWarningManagementSystem.pojo.TeacherService.UpdateWarningInfoRequest;
 import edu.tute.academicEarlyWarningManagementSystem.pojo.TeacherService.UserNameRequest;
 import edu.tute.academicEarlyWarningManagementSystem.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/teacher")
+@CrossOrigin
 public class TeacherController {
     @Autowired
     TeacherService teacherService;
@@ -41,6 +41,20 @@ public class TeacherController {
     public ResponseMsg getResetList(@RequestBody UserNameRequest userNameRequest){
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg = teacherService.getResetList(userNameRequest);
+        return responseMsg;
+    }
+
+    @PostMapping("/resetPassword")
+    public ResponseMsg resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest){
+        ResponseMsg responseMsg = new ResponseMsg();
+        responseMsg = teacherService.resetPassword(resetPasswordRequest);
+        return responseMsg;
+    }
+
+    @PostMapping("/updateWarningInfo")
+    public ResponseMsg updateWarningInfo(@RequestBody UpdateWarningInfoRequest updateWarningInfoRequest){
+        ResponseMsg responseMsg = new ResponseMsg();
+        responseMsg = teacherService.updateWarningInfo(updateWarningInfoRequest);
         return responseMsg;
     }
 }

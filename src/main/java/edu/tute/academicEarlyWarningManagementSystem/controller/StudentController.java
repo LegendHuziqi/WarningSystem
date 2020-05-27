@@ -3,17 +3,16 @@ package edu.tute.academicEarlyWarningManagementSystem.controller;
 import edu.tute.academicEarlyWarningManagementSystem.pojo.LoginService.ForgetPasswordRequest;
 import edu.tute.academicEarlyWarningManagementSystem.pojo.LoginService.LoginRequest;
 import edu.tute.academicEarlyWarningManagementSystem.pojo.ResponseMsg;
+import edu.tute.academicEarlyWarningManagementSystem.pojo.StudentService.ModifyInfoRequest;
 import edu.tute.academicEarlyWarningManagementSystem.pojo.TeacherService.UserNameRequest;
 import edu.tute.academicEarlyWarningManagementSystem.service.LoginService;
 import edu.tute.academicEarlyWarningManagementSystem.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/student")
+@CrossOrigin
 public class StudentController {
     @Autowired
     StudentService studentService;
@@ -26,9 +25,9 @@ public class StudentController {
     }
 
     @PostMapping("/modifyInfo")
-    public ResponseMsg modifyInfo(@RequestBody UserNameRequest userNameRequest){
+    public ResponseMsg modifyInfo(@RequestBody ModifyInfoRequest modifyInfoRequest){
         ResponseMsg responseMsg = new ResponseMsg();
-        responseMsg = studentService.getInfo(userNameRequest);
+        responseMsg = studentService.modifyInfo(modifyInfoRequest);
         return responseMsg;
     }
 

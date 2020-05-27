@@ -1,12 +1,13 @@
 package edu.tute.academicEarlyWarningManagementSystem.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import edu.tute.academicEarlyWarningManagementSystem.Bean.User;
 import edu.tute.academicEarlyWarningManagementSystem.dao.RelationshipMapper;
 import edu.tute.academicEarlyWarningManagementSystem.dao.UserMapper;
 import edu.tute.academicEarlyWarningManagementSystem.pojo.ResponseMsg;
 import edu.tute.academicEarlyWarningManagementSystem.pojo.SecretaryService.SearchStudentRequest;
+import edu.tute.academicEarlyWarningManagementSystem.pojo.TeacherService.ResetPasswordRequest;
+import edu.tute.academicEarlyWarningManagementSystem.pojo.TeacherService.UpdateWarningInfoRequest;
 import edu.tute.academicEarlyWarningManagementSystem.pojo.TeacherService.UserNameRequest;
 import edu.tute.academicEarlyWarningManagementSystem.service.TeacherService;
 import edu.tute.academicEarlyWarningManagementSystem.utils.JedisClient;
@@ -23,6 +24,18 @@ public class TeacherServiceImpl implements TeacherService {
     RelationshipMapper relationshipMapper;
     @Autowired
     JedisClient jedisClient;
+
+    public static void main(String[] args) {
+        Map test = new HashMap();
+        test.put("1", "1");
+        test.put("2", "1");
+        test.put("3", "0");
+
+        Iterator iterator = test.entrySet().iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+    }
 
     @Override
     public ResponseMsg searchStudent(SearchStudentRequest searchStudentRequest) {
@@ -60,6 +73,8 @@ public class TeacherServiceImpl implements TeacherService {
             for (String className : allClass) {
                 SearchStudentRequest searchStudentRequest = new SearchStudentRequest();
                 searchStudentRequest.setClassName(className);
+                searchStudentRequest.setPage(0);
+                searchStudentRequest.setPageSize(100);
                 List<User> students = userMapper.searchStudent(searchStudentRequest);
                 for (User student : students) {
                     JSONObject jsonObject = new JSONObject();
@@ -89,20 +104,20 @@ public class TeacherServiceImpl implements TeacherService {
         List<JSONObject> result = new ArrayList<JSONObject>();
         List<String> allClass = relationshipMapper.getAllClass(userNameRequest.getUserName());
         if (!allClass.isEmpty()) {
-            for (String className : allClass){
+            for (String className : allClass) {
                 List<User> temp = userMapper.getNotification(className);
                 for (User student : temp) {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("userName", student.getUserName());
                     jsonObject.put("name", student.getName());
-                    jsonObject.put("warningReason",student.getWarningReason());
+                    jsonObject.put("warningReason", student.getWarningReason());
                     result.add(jsonObject);
                 }
             }
             responseMsg.setStatusCode(0);
             responseMsg.setData(JSONObject.toJSONString(result));
             return responseMsg;
-        }else {
+        } else {
             responseMsg.setStatusCode(1);
             responseMsg.setMsg("查询失败");
             return responseMsg;
@@ -115,26 +130,31 @@ public class TeacherServiceImpl implements TeacherService {
         Map temp = jedisClient.hgetAll(userNameRequest.getUserName());
         Iterator<Map.Entry<String, String>> iterator = temp.entrySet().iterator();
         List<JSONObject> result = new ArrayList<>();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("studentId",iterator.next().getKey());
-            jsonObject.put("studentName",iterator.next().getValue());
+            Map.Entry<String, String> tmp = iterator.next();
+            jsonObject.put("studentId", tmp.getKey());
+            jsonObject.put("studentName", tmp.getValue());
             result.add(jsonObject);
         }
         responseMsg.setData(JSONObject.toJSONString(result));
         return responseMsg;
     }
 
-
-    public static void main(String[] args) {
-        Map test = new HashMap();
-        test.put("1","1");
-        test.put("2","1");
-        test.put("3","0");
-
-        Iterator iterator = test.entrySet().iterator();
-        while (iterator.hasNext()){
-            System.out.println(iterator.next());
+    @Override
+    public ResponseMsg resetPassword(ResetPasswordRequest resetPasswordRequest) {
+        ResponseMsg responseMsg = new ResponseMsg();
+        if (resetPasswordRequest.getOption().equals("0")) {
+            userMapper.changePassword(resetPasswordRequest.getUserName(), resetPasswordRequest.getUserName());
         }
+        jedisClient.hdel(resetPasswordRequest.getTeacherUserName(),resetPasswordRequest.getUserName());
+        return responseMsg;
+    }
+
+    @Override
+    public ResponseMsg updateWarningInfo(UpdateWarningInfoRequest updateWarningInfoRequest) {
+        ResponseMsg responseMsg = new ResponseMsg();
+        userMapper.updateWarningInfo(updateWarningInfoRequest.getUserName(),updateWarningInfoRequest.getDescription(),updateWarningInfoRequest.getHandleStatus());
+        return responseMsg;
     }
 }

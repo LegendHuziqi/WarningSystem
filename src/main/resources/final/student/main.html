@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="../assets/jquery-3.3.1.js"></script>
+    <script src="../assets/jquery-3.3.1.min.js"></script>
+    <meta charset="UTF-8">
+    <title>天津职业技术师范大学学业预警管理系统</title>
+    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+    <link rel="script" href="../../../jquery/jquery-ui.js"/>
+
+</head>
+<body>
+<div class="container">
+    <div class="grid header">
+        <span class="xxx title">
+            天津职业技术师范大学学业预警管理系统
+        </span>
+        <span class="grid Log_in">
+            <a href="../login.html">注销用户</a></span>
+        <p class="wel"></p>
+    </div>
+    <div class="grid sidebar">
+        <ul>
+            <li>
+                <a href="InfoDetail.html">我的信息</a>
+            </li>
+            <li>
+                <a href="ChangePassword.html">修改密码</a>
+            </li>
+        </ul>
+    </div>
+    <div class="grid content_box">
+
+    </div>
+
+    <div class="xxx footer"></div>
+</div>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var value = localStorage.getItem("name");
+        $(function () {
+            $(".wel").html("欢迎," + value)
+        });
+    })
+</script>
+
+
+</html>

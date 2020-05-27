@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.tute.academicEarlyWarningManagementSystem.dao.UserMapper">
     <!--登录-->
-    <select id="login" resultType="java.lang.Integer">
+    <select id="login" resultType="edu.tute.academicEarlyWarningManagementSystem.Bean.User">
         select *
         from user
         where userName = #{userName}
@@ -10,7 +10,7 @@
     </select>
 
     <!--根据查询条件查询学生-->
-    <select id="selectConversation"
+    <select id="searchStudent"
             parameterType="edu.tute.academicEarlyWarningManagementSystem.pojo.SecretaryService.SearchStudentRequest"
             resultType="edu.tute.academicEarlyWarningManagementSystem.Bean.User">
         select * from user
@@ -52,16 +52,21 @@
         update user
         set warningStatus='1',
             warningReason='',
-            handleStatus='0'
+            handleStatus=null
         where userName = #{userName}
           and name = #{name}
     </update>
 
     <insert id="insertStudentInfo" parameterType="edu.tute.academicEarlyWarningManagementSystem.Bean.User">
-        insert into 'user' (userName, password, roleId, college, className, name, phone, room, address, contactName,
-                            contactPhone, warningStatus)
-        VALUES (#{username}, #{username}, #{roleId}, #{college}, #{className}, #{name}, #{phone}, #{room}, #{address},
-                #{contactName}, #{contacePhone}, #{warningStatus})
+        insert into user (userName, password, roleId, college, className, name, phone, room, address, contactName,
+                          contactPhone)
+        VALUES (#{userName}, #{userName}, #{roleId}, #{college}, #{className}, #{name}, #{phone}, #{room}, #{address},
+                #{contactName}, #{contactPhone})
+    </insert>
+
+    <insert id="insertTeacher" parameterType="edu.tute.academicEarlyWarningManagementSystem.Bean.User">
+        insert into user (userName, password, roleId, college, className, name)
+        VALUES (#{userName}, #{userName}, #{roleId}, #{college}, #{className}, #{name})
     </insert>
 
     <!--获取预警通知信息-->
@@ -82,6 +87,23 @@
     <update id="changePassword">
         update user
         set password=#{password}
+        where userName = #{userName}
+    </update>
+
+    <update id="updateWarningInfo">
+        update user
+        set description=#{description},
+            handleStatus=#{handleStatus}
+        where userName = #{userName}
+    </update>
+
+    <update id="modifyInfo">
+        update user
+        set name=#{name},
+            phone=#{phone},
+            address=#{address},
+            contactName=#{contactName},
+            contactPhone=#{contactPhone}
         where userName = #{userName}
     </update>
 </mapper>

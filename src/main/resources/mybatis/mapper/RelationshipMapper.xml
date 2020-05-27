@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="edu.tute.academicEarlyWarningManagementSystem.dao.UserMapper">
+<mapper namespace="edu.tute.academicEarlyWarningManagementSystem.dao.RelationshipMapper">
     <select id="getAllClass" resultType="java.lang.String">
         select className
         from relationship
@@ -8,13 +8,13 @@
            or advisor = #{userName}
     </select>
 
-    <select id="getTeacherbyClassName" resultType="java.lang.Integer">
+    <select id="getTeacherbyClassName" resultType="java.lang.String">
         select teacher
         from relationship
         where className = #{className}
     </select>
 
-    <select id="getAdvisorbyClassName" resultType="java.lang.Integer">
+    <select id="getAdvisorbyClassName" resultType="java.lang.String">
         select advisor
         from relationship
         where className = #{className}

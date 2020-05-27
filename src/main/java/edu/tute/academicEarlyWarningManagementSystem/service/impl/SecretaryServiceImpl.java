@@ -33,8 +33,12 @@ public class SecretaryServiceImpl implements SecretaryService {
                 jsonObject.put("name",student.getName());
                 jsonObject.put("college",student.getCollege());
                 jsonObject.put("className",student.getClassName());
-                jsonObject.put("warningStatus",student.getWarningStatus());
-                jsonObject.put("handleStatus",student.getHandleStatus());
+                if(student.getWarningStatus().equals("1")){
+                    jsonObject.put("warningStatus","否");
+                }else {
+                    jsonObject.put("warningStatus","是");
+                }
+//                jsonObject.put("handleStatus",student.getHandleStatus());
                 result.add(jsonObject);
             }
             responseMsg.setStatusCode(0);
@@ -80,6 +84,7 @@ public class SecretaryServiceImpl implements SecretaryService {
     @Override
     public ResponseMsg createStudentInfo(User user) {
         ResponseMsg responseMsg = new ResponseMsg();
+        user.setRoleId("4");
         Integer result = userMapper.insertStudentInfo(user);
         if(result == 1){
             responseMsg.setStatusCode(0);
@@ -88,6 +93,43 @@ public class SecretaryServiceImpl implements SecretaryService {
         }else {
             responseMsg.setStatusCode(1);
             responseMsg.setMsg("添加学生信息失败");
+            return responseMsg;
+        }
+    }
+
+    @Override
+    public ResponseMsg importAdvisor(User user) {
+        ResponseMsg responseMsg = new ResponseMsg();
+        user.setRoleId("2");
+        Integer result = new Integer(0);
+        try {
+            result = userMapper.insertTeacher(user);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(result == 1){
+            responseMsg.setStatusCode(0);
+            responseMsg.setMsg("添加辅导员信息成功");
+            return responseMsg;
+        }else {
+            responseMsg.setStatusCode(1);
+            responseMsg.setMsg("添加辅导员信息失败");
+            return responseMsg;
+        }
+    }
+
+    @Override
+    public ResponseMsg importTeacher(User user) {
+        ResponseMsg responseMsg = new ResponseMsg();
+        user.setRoleId("3");
+        Integer result = userMapper.insertTeacher(user);
+        if(result == 1){
+            responseMsg.setStatusCode(0);
+            responseMsg.setMsg("添加班主任信息成功");
+            return responseMsg;
+        }else {
+            responseMsg.setStatusCode(1);
+            responseMsg.setMsg("添加班主任信息失败");
             return responseMsg;
         }
     }

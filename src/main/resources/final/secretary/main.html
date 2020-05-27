@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="../assets/jquery-3.3.1.js"></script>
+    <script src="../assets/jquery-3.3.1.min.js"></script>
+    <meta charset="UTF-8">
+    <title>天职师大管理系统</title>
+    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+    <link rel="script" href="../../../jquery/jquery-ui.js"/>
+
+</head>
+<body>
+<div class="container">
+    <div class="grid header">
+        <span class="xxx title">
+            天津职业技术师范大学学业预警管理系统
+        </span>
+        <span class="grid Log_in">
+            <a href="../login.html">注销用户</a></span>
+        <p class="wel"></p>
+    </div>
+    <div class="grid sidebar">
+        <ul>
+            <li>
+                <a href="StudentInfo.html">学生信息</a>
+            </li>
+            <li>
+                <a href="WarningInfo.html">预警信息</a>
+            </li>
+            <li>
+                <a href="ImportInfo.html">信息录入</a>
+            </li>
+<!--            <li>-->
+<!--                <a href="ResetPassword.html">密码重置</a>-->
+<!--            </li>-->
+            <li>
+                <a href="ChangePassword.html">修改密码</a>
+            </li>
+        </ul>
+    </div>
+    <div class="grid content_box">
+
+
+    </div>
+
+    <div class="xxx footer"></div>
+</div>
+</body>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var value = localStorage.getItem("name");
+        $(function () {
+            $(".wel").html("欢迎,"+value)
+        });
+
+    });
+
+    function check() {
+        if (document.getElementById("yj_right").checked) {
+            var radio = document.getElementById("yj_right").innerHTML = charCodes()
+        } else {
+            var radio = document.getElementById("yj_arr").innerHTML = charCodes()
+
+        }
+        // var radio = document.getElementsByName("names");
+        // for(i = 0; i < radio.length; i ++) {
+        //     if (radio[i].checked) {
+        //         return radio[i].vaule
+        //     }
+        //
+        // }
+        // var radio = document.getElementsByName("names").innerHTML = check();
+
+    }
+
+    // function ccc() {
+    //     window.location.href = "../../login.html";
+    // }
+
+    // function login() {
+    //     var activity = {
+    //         name: $("#name").val(),
+    //         time: $("#time").val(),
+    //         place: $("#place").val(),
+    //         radio: $("#radio").val(),
+    //         // association:$("#association").val(),
+    //         // content:$("#content").val(),
+    //         publishperson: $("#publishperson").val(),
+    //         publishasso: $("#publishasso").val()
+    //     };
+    //
+    //     $.ajax({
+    //         url: "/applyactivity",
+    //         type: "post",
+    //         data: activity,
+    //         dataType: "text",
+    //         success: function (msg) {
+    //             if (msg == "1") {
+    //                 alert("提交成功！");
+    //                 window.location.href = "ImportStudent.html";
+    //             } else {
+    //                 alert("提交失败");
+    //             }
+    //         }
+    //     })
+    // }
+</script>
+
+
+</html>
